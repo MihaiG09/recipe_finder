@@ -176,7 +176,17 @@ class _ErrorUI extends StatelessWidget {
         return _buildUi(
           context,
           errorText:
-              "Cannot produce any result of your request, please try another query",
+              "Cannot produce any result for your request, please try another query",
+          buttonText: "Back to favorites",
+          onButtonPress: () {
+            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+          },
+        );
+      case RecipeExceptionsType.timeOut:
+        return _buildUi(
+          context,
+          errorText:
+              "Request timed out, please check your internet connection and try again",
           buttonText: "Back to favorites",
           onButtonPress: () {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());

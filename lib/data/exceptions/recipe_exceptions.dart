@@ -25,4 +25,5 @@ enum RecipeExceptionsType {
   emptyResult,
   unknown,
   invalidRequest,
+  timeOut,
 }

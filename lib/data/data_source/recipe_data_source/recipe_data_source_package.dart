@@ -1,17 +1,22 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:recipe_finder/common/utils/api_helper.dart';
 import 'package:recipe_finder/common/utils/logger.dart';
+import 'package:recipe_finder/data/data_source/recipe_data_source/recipe_data_source.dart';
 import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
+import 'package:recipe_finder/common/utils/gemini_context_prompt.dart';
 
-import 'gemini_context_prompt.dart';
+class RecipeDataSourcePackage implements RecipeDataSource {
+  final Gemini _gemini;
+  RecipeDataSourcePackage(this._gemini);
 
-class RecipeServicePackage {
-  // TODO: use rest API instead
+  @override
   Future<List<Recipe>> searchRecipes(
     String query, {
-    List<String> excludedRecipes = const [],
+    List<String>? excludedRecipes,
   }) async {
     try {
       // if too many recipes are excluded the AI may return empty results
@@ -20,8 +25,8 @@ class RecipeServicePackage {
         message: "searchRecipes query $query excludedRecipes: $excludedRecipes",
       );
 
-      Candidates? candidates = await Gemini.instance.prompt(
-        parts: [Part.text(geminiPrompt(query, exclude: excludedRecipes))],
+      Candidates? candidates = await _gemini.prompt(
+        parts: [Part.text(geminiPrompt(query, exclude: excludedRecipes ?? []))],
       );
 
       List<Recipe> result = [];
@@ -32,7 +37,7 @@ class RecipeServicePackage {
       );
 
       if (candidates?.output != null) {
-        var json = jsonDecode(stripToBraces(candidates!.output!));
+        var json = jsonDecode(ApiHelper.extractJson(candidates!.output!));
         result = Recipe.listFromJson(json["recipes"]);
       }
 
@@ -62,22 +67,19 @@ class RecipeServicePackage {
           type: RecipeExceptionsType.unauthorizedRequest,
         );
       }
-      Logger.e(message: "searchRecipes received unhandled GeminiException: $e");
+      Logger.e(
+        tag: runtimeType.toString(),
+        message: "searchRecipes received unhandled GeminiException:",
+        error: e,
+      );
       rethrow;
     } catch (e) {
-      Logger.e(message: "searchRecipes received unhandled Exception type: $e");
+      Logger.e(
+        tag: runtimeType.toString(),
+        message: "searchRecipes received unhandled Exception type:",
+        error: e,
+      );
       rethrow;
     }
   }
-}
-
-String stripToBraces(String input) {
-  int start = input.indexOf('{');
-  int end = input.lastIndexOf('}');
-
-  if (start != -1 && end != -1 && end > start) {
-    return input.substring(start, end + 1);
-  }
-
-  return ''; // return empty string if braces are not properly found
 }
