@@ -11,7 +11,7 @@ import 'package:recipe_finder/common/utils/gemini_context_prompt.dart';
 
 class RecipeDataSourcePackage implements RecipeDataSource {
   final Gemini _gemini;
-  RecipeDataSourcePackage(this._gemini);
+  const RecipeDataSourcePackage(this._gemini);
 
   @override
   Future<List<Recipe>> searchRecipes(
