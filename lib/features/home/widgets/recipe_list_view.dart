@@ -25,13 +25,14 @@ class RecipeListView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: _buildListTitle(context, state),
               ),
               Flexible(
                 child: ListView.builder(
+                  physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.all(16),
                   itemCount: state.recipes.length,
                   itemBuilder:
                       (context, index) => Padding(
@@ -43,7 +44,7 @@ class RecipeListView extends StatelessWidget {
               if (state is RecipeSearchLoaded)
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 24),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
                     child: _buildRetryButton(context),
                   ),
                 ),
@@ -111,7 +112,8 @@ class _LoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
