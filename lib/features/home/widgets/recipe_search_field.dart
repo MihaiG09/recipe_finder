@@ -15,15 +15,40 @@ class RecipeSearchField extends StatefulWidget {
 
 class _RecipeSearchFieldState extends State<RecipeSearchField> {
   final TextEditingController _controller = TextEditingController();
+  final List<String> _suggestions = [];
 
   @override
   Widget build(BuildContext context) {
-    return SearchField(
-      suggestions: [],
+    return SearchField<String>(
+      suggestions:
+          _suggestions.reversed
+              .map((value) => SearchFieldListItem<String>(value))
+              .toList(),
       controller: _controller,
+      suggestionStyle: Theme.of(context).textTheme.bodyMedium,
+      suggestionsDecoration: SuggestionDecoration(
+        elevation: 1,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.primary, width: 1),
+        selectionColor: Colors.transparent,
+      ),
+      offset: Offset(0, 48),
+      onSuggestionTap: (suggestion) {
+        BlocProvider.of<RecipeListBloc>(
+          context,
+        ).add(SearchRecipes(suggestion.searchKey));
+      },
       onSubmit: (value) {
         BlocProvider.of<RecipeListBloc>(context).add(SearchRecipes(value));
-        _controller.clear();
+        setState(() {
+          if (!_suggestions.contains(value)) {
+            _suggestions.add(value);
+            if (_suggestions.length > 3) {
+              _suggestions.removeAt(0);
+            }
+          }
+        });
       },
       searchInputDecoration: SearchInputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -38,7 +63,8 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
         hintStyle: Theme.of(
           context,
         ).textTheme.bodyMedium?.copyWith(height: 1, color: AppColors.tertiary),
-        contentPadding: EdgeInsets.only(left: 16, right: 16),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+        constraints: BoxConstraints(maxHeight: 40),
         suffixIcon: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset("assets/search.svg"),
