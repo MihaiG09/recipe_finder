@@ -72,7 +72,7 @@ class RecipeDetailsScreen extends StatelessWidget {
             (ingredient) => Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
-                "\u2022 ${ingredient}",
+                "\u2022 $ingredient",
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),

@@ -11,7 +11,7 @@ import 'data/data_source/favorites_data_source/favorites_data_source_in_memory.d
 import 'data/repository/recipe_repository_impl.dart';
 
 void main() {
-  Gemini.init(apiKey: const String.fromEnvironment("geminiApiKey"));
+  Gemini.init(apiKey: "");
 
   runApp(const MyApp());
 }

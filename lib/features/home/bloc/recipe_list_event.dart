@@ -37,3 +37,7 @@ final class RemoveFavorite extends RecipeEvent {
   @override
   List<Object?> get props => [recipe];
 }
+
+final class RetryLastQuery extends RecipeEvent {
+  const RetryLastQuery();
+}

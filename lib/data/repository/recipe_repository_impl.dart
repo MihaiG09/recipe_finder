@@ -27,7 +27,13 @@ class RecipeRepositoryImpl implements RecipeRepository {
   }
 
   @override
-  FutureOr<List<Recipe>> searchRecipes(String query) {
-    return recipeDataSource.searchRecipes(query);
+  FutureOr<List<Recipe>> searchRecipes(
+    String query, {
+    List<Recipe>? excludedRecipes,
+  }) {
+    return recipeDataSource.searchRecipes(
+      query,
+      excludedRecipes: excludedRecipes?.map((recipe) => recipe.name).toList(),
+    );
   }
 }

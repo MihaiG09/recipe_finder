@@ -20,4 +20,9 @@ class RecipeExceptions implements Exception {
   }
 }
 
-enum RecipeExceptionsType { unauthorizedRequest, emptyResult, unknown }
+enum RecipeExceptionsType {
+  unauthorizedRequest,
+  emptyResult,
+  unknown,
+  invalidRequest,
+}

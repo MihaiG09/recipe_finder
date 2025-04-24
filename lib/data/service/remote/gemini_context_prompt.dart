@@ -1,4 +1,4 @@
-String geminiPrompt(String query) =>
+String geminiPrompt(String query, {List<String> exclude = const []}) =>
     """You are a recipe finder. Based on a query provided by a user
 you must provide 4 recipes at a time in a json format.
 A recipe has the following parameters: 'name' of type String,
@@ -38,5 +38,6 @@ the exact message template that you must provide, this message must be successfu
     ] 
 }
 
-If you cannot provide any recipes based on the given query return this json: {"recipes": []}
-This is the query: ${query}""";
+If you cannot provide any recipes based on the given query return this json: {"recipes": []}.
+${exclude.isNotEmpty ? "exclude the following recipes: ${exclude.join(', ')}" : ""}.
+This is the query: $query""";

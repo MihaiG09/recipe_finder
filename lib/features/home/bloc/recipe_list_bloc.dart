@@ -13,11 +13,16 @@ part 'recipe_list_state.dart';
 class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
   final RecipeRepository recipeRepository;
 
+  String? _lastQuery;
+
+  final List<Recipe> _excludedRecipes = [];
+
   RecipeListBloc(this.recipeRepository) : super(RecipeListInitial()) {
     on<SearchRecipes>(_onSearchRecipes);
     on<FetchFavorites>(_onFetchFavorites);
     on<AddFavorite>(_onAddFavorite);
     on<RemoveFavorite>(_onRemoveFavorite);
+    on<RetryLastQuery>(_onRetryLastQuery);
   }
 
   FutureOr<void> _onSearchRecipes(
@@ -33,7 +38,12 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
     emit(RecipeListLoading());
 
     try {
-      List<Recipe> recipes = await recipeRepository.searchRecipes(event.query);
+      List<Recipe> recipes = await recipeRepository.searchRecipes(
+        event.query,
+        excludedRecipes: _excludedRecipes,
+      );
+
+      _lastQuery = event.query;
 
       emit(RecipeSearchLoaded(recipes));
     } on RecipeExceptions catch (e) {
@@ -165,6 +175,19 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
       );
 
       emit(RecipeListError(RecipeExceptionsType.unknown));
+    }
+  }
+
+  FutureOr<void> _onRetryLastQuery(
+    RetryLastQuery event,
+    Emitter<RecipeListState> emit,
+  ) {
+    if (_lastQuery != null) {
+      var state = this.state;
+      if (state is RecipeSearchLoaded) {
+        _excludedRecipes.addAll(state.recipes);
+      }
+      add(SearchRecipes(_lastQuery!));
     }
   }
 }

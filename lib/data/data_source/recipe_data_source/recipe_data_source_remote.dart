@@ -9,7 +9,13 @@ class RecipeDataSourceRemote implements RecipeDataSource {
   RecipeDataSourceRemote(this.recipeService);
 
   @override
-  FutureOr<List<Recipe>> searchRecipes(String query) {
-    return recipeService.searchRecipes(query);
+  FutureOr<List<Recipe>> searchRecipes(
+    String query, {
+    List<String>? excludedRecipes,
+  }) {
+    return recipeService.searchRecipes(
+      query,
+      excludedRecipes: excludedRecipes ?? [],
+    );
   }
 }

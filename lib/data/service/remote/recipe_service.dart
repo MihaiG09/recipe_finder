@@ -9,15 +9,19 @@ import 'gemini_context_prompt.dart';
 
 class RecipeService {
   // TODO: use rest API instead
-  Future<List<Recipe>> searchRecipes(String query) async {
+  Future<List<Recipe>> searchRecipes(
+    String query, {
+    List<String> excludedRecipes = const [],
+  }) async {
     try {
+      // if too many recipes are excluded the AI may return empty results
       Logger.d(
         tag: runtimeType.toString(),
-        message: "searchRecipes query $query",
+        message: "searchRecipes query $query excludedRecipes: $excludedRecipes",
       );
 
       Candidates? candidates = await Gemini.instance.prompt(
-        parts: [Part.text(geminiPrompt(query))],
+        parts: [Part.text(geminiPrompt(query, exclude: excludedRecipes))],
       );
 
       List<Recipe> result = [];
@@ -46,7 +50,13 @@ class RecipeService {
 
       return result;
     } on GeminiException catch (e) {
-      if (e.statusCode == 403) {
+      if (e.message.toString().contains("403")) {
+        throw RecipeExceptions(
+          message: e.message.toString(),
+          type: RecipeExceptionsType.unauthorizedRequest,
+        );
+      }
+      if (e.message.toString().contains("400")) {
         throw RecipeExceptions(
           message: e.message.toString(),
           type: RecipeExceptionsType.unauthorizedRequest,

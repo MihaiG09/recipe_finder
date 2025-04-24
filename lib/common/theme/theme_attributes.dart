@@ -66,7 +66,7 @@ class ThemeAttributes {
         textTheme.labelMedium?.copyWith(color: AppColors.white),
       ),
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
       elevation: WidgetStatePropertyAll(0),
     ),

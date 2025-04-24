@@ -25,8 +25,9 @@ class RecipeListView extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
                 child: _buildListTitle(context, state),
               ),
-              Expanded(
+              Flexible(
                 child: ListView.builder(
+                  shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   itemCount: state.recipes.length,
                   itemBuilder:
@@ -36,12 +37,33 @@ class RecipeListView extends StatelessWidget {
                       ),
                 ),
               ),
+              if (state is RecipeSearchLoaded)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 24),
+                    child: _buildRetryButton(context),
+                  ),
+                ),
             ],
           );
         }
 
         return _LoadingShimmer();
       },
+    );
+  }
+
+  Widget _buildRetryButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        BlocProvider.of<RecipeListBloc>(context).add(RetryLastQuery());
+      },
+      child: Text(
+        "I don't like these",
+        style: Theme.of(
+          context,
+        ).textTheme.labelMedium?.copyWith(color: AppColors.white),
+      ),
     );
   }
 
@@ -130,6 +152,7 @@ class _ErrorUI extends StatelessWidget {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
           },
         );
+      case RecipeExceptionsType.invalidRequest:
       case RecipeExceptionsType.unknown:
         return _buildUi(
           context,
