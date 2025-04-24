@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:recipe_finder/common/utils/api_helper.dart';
 import 'package:recipe_finder/common/utils/logger.dart';
 import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
@@ -72,7 +73,11 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
     emit(RecipeListLoading());
 
     try {
-      List<Recipe> recipes = await recipeRepository.getFavorites();
+      List<Recipe> recipes =
+          await ApiHelper.callWithMinimumDuration<List<Recipe>>(
+            recipeRepository.getFavorites,
+            Duration(seconds: 1),
+          );
 
       emit(RecipeFavoritesLoaded(recipes));
     } on RecipeExceptions catch (e) {

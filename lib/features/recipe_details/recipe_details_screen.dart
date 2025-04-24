@@ -138,7 +138,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("$index. ", style: Theme.of(context).textTheme.bodySmall),
+        Text("${index + 1}. ", style: Theme.of(context).textTheme.bodySmall),
         Expanded(
           child: Text(
             instruction,

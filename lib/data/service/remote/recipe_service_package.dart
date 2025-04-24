@@ -7,7 +7,7 @@ import 'package:recipe_finder/data/models/recipe.dart';
 
 import 'gemini_context_prompt.dart';
 
-class RecipeService {
+class RecipeServicePackage {
   // TODO: use rest API instead
   Future<List<Recipe>> searchRecipes(
     String query, {

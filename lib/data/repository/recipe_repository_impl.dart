@@ -12,22 +12,22 @@ class RecipeRepositoryImpl implements RecipeRepository {
   RecipeRepositoryImpl(this.recipeDataSource, this.favoritesDataSource);
 
   @override
-  FutureOr<void> addFavorite(Recipe recipe) {
+  Future<void> addFavorite(Recipe recipe) {
     return favoritesDataSource.addFavorite(recipe);
   }
 
   @override
-  FutureOr<List<Recipe>> getFavorites() {
+  Future<List<Recipe>> getFavorites() {
     return favoritesDataSource.getRecipes();
   }
 
   @override
-  FutureOr<void> removeFavorite(Recipe recipe) {
+  Future<void> removeFavorite(Recipe recipe) {
     return favoritesDataSource.removeFavorite(recipe);
   }
 
   @override
-  FutureOr<List<Recipe>> searchRecipes(
+  Future<List<Recipe>> searchRecipes(
     String query, {
     List<Recipe>? excludedRecipes,
   }) {

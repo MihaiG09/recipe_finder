@@ -18,6 +18,9 @@ class RecipeListView extends StatelessWidget {
           return _ErrorUI(state.type);
         }
         if (state is RecipeListLoaded) {
+          if (state.recipes.isEmpty) {
+            return _EmptyResult();
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -71,6 +74,31 @@ class RecipeListView extends StatelessWidget {
     return Text(
       state is RecipeSearchLoaded ? "Suggested Recipes" : "Favorites",
       style: Theme.of(context).textTheme.titleLarge,
+    );
+  }
+}
+
+class _EmptyResult extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      width: double.infinity,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.search, color: AppColors.primary, size: 88),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Text(
+              "There is nothing here. Use the search bar to find some tasty recipes!",
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -175,6 +203,8 @@ class _ErrorUI extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       width: double.infinity,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.error_outline, color: AppColors.primary, size: 88),
           Padding(

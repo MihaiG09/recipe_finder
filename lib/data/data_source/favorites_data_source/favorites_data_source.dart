@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:recipe_finder/data/models/recipe.dart';
 
 abstract class FavoritesDataSource {
-  FutureOr<List<Recipe>> getRecipes();
+  Future<List<Recipe>> getRecipes();
 
-  FutureOr<void> addFavorite(Recipe recipe);
+  Future<void> addFavorite(Recipe recipe);
 
-  FutureOr<void> removeFavorite(Recipe recipe);
+  Future<void> removeFavorite(Recipe recipe);
 }

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:recipe_finder/common/theme/theme_builder.dart';
 import 'package:recipe_finder/data/data_source/recipe_data_source/recipe_data_source_remote.dart';
-import 'package:recipe_finder/data/service/remote/recipe_service.dart';
+import 'package:recipe_finder/data/service/remote/recipe_service_package.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
 import 'package:recipe_finder/features/home/home_screen.dart';
 
-import 'data/data_source/favorites_data_source/favorites_data_source_in_memory.dart';
+import 'data/data_source/favorites_data_source/favorite_data_source_local_db.dart';
 import 'data/repository/recipe_repository_impl.dart';
 
 //TODO: write readme.md
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
       create:
           (_) => RecipeListBloc(
             RecipeRepositoryImpl(
-              RecipeDataSourceRemote(RecipeService()),
-              FavoritesDataSourceInMemory(),
+              RecipeDataSourceRemote(RecipeServicePackage()),
+              FavoriteDataSourceLocalDB(),
             ),
           )..add(const FetchFavorites()),
       child: MaterialApp(

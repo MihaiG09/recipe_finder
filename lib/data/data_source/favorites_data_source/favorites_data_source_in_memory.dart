@@ -5,7 +5,6 @@ import 'package:recipe_finder/data/models/recipe.dart';
 import 'favorites_data_source.dart';
 
 class FavoritesDataSourceInMemory implements FavoritesDataSource {
-  // TODO: implement db storage
   final List<Recipe> _favorites = List.of([
     Recipe(
       id: "1",
@@ -24,17 +23,17 @@ class FavoritesDataSourceInMemory implements FavoritesDataSource {
   ]);
 
   @override
-  FutureOr<void> addFavorite(Recipe recipe) {
+  Future<void> addFavorite(Recipe recipe) async {
     _favorites.add(recipe.copyWith(isFavorite: true));
   }
 
   @override
-  FutureOr<void> removeFavorite(Recipe recipe) {
+  Future<void> removeFavorite(Recipe recipe) async {
     _favorites.removeWhere((elem) => elem.id == recipe.id);
   }
 
   @override
-  FutureOr<List<Recipe>> getRecipes() {
+  Future<List<Recipe>> getRecipes() async {
     return List.of(_favorites);
   }
 }
