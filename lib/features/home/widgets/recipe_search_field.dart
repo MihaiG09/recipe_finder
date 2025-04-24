@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recipe_finder/common/theme/app_colors.dart';
+import 'package:recipe_finder/common/utils/loc.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
 import 'package:searchfield/searchfield.dart';
 
@@ -33,7 +34,7 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
           borderRadius: BorderRadius.all(Radius.circular(9999)),
           borderSide: BorderSide(color: AppColors.primary),
         ),
-        hintText: "What do you feel like eating?",
+        hintText: context.loc.searchFieldHint,
         hintStyle: Theme.of(
           context,
         ).textTheme.bodyMedium?.copyWith(height: 1, color: AppColors.tertiary),

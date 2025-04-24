@@ -10,6 +10,7 @@ import 'data/data_source/favorites_data_source/favorite_data_source_local_db.dar
 import 'data/data_source/recipe_data_source/recipe_data_source_api.dart';
 import 'data/repository/recipe_repository_impl.dart';
 import 'data/service/remote/recipe_service.dart';
+import 'l10n/app_localizations.dart';
 
 //TODO: write readme.md
 void main() {
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
           )..add(const FetchFavorites()),
       child: MaterialApp(
         theme: ThemeBuilder.getThemeData(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const HomeScreen(),
       ),
     );

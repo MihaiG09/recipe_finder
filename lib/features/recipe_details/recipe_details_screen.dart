@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recipe_finder/common/utils/loc.dart';
 import 'package:recipe_finder/common/widgets/favorite_button.dart';
 import 'package:recipe_finder/common/widgets/recipe_title.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
@@ -67,7 +68,10 @@ class RecipeDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Ingredients:", style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            "${context.loc.recipeDetailsIngredientsLabel}:",
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
           ...recipe.ingredients.map(
             (ingredient) => Padding(
               padding: EdgeInsets.only(left: 8),
@@ -89,7 +93,10 @@ class RecipeDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Instructions:", style: Theme.of(context).textTheme.labelSmall),
+          Text(
+            "${context.loc.recipeDetailsInstructionsLabel}:",
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
           ...recipe.instructions.asMap().entries.map(
             (entry) => Padding(
               padding: EdgeInsets.only(left: 8),

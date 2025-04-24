@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_finder/common/theme/app_colors.dart';
+import 'package:recipe_finder/common/utils/loc.dart';
 import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_list_tile.dart';
@@ -63,7 +64,7 @@ class RecipeListView extends StatelessWidget {
         BlocProvider.of<RecipeListBloc>(context).add(RetryLastQuery());
       },
       child: Text(
-        "I don't like these",
+        context.loc.recipeListRetryButtonTitle,
         style: Theme.of(
           context,
         ).textTheme.labelMedium?.copyWith(color: AppColors.white),
@@ -73,7 +74,9 @@ class RecipeListView extends StatelessWidget {
 
   Widget _buildListTitle(BuildContext context, RecipeListLoaded state) {
     return Text(
-      state is RecipeSearchLoaded ? "Suggested Recipes" : "Favorites",
+      state is RecipeSearchLoaded
+          ? context.loc.recipeListSearchTitle
+          : context.loc.recipeListFavoritesTitle,
       style: Theme.of(context).textTheme.titleLarge,
     );
   }
@@ -93,7 +96,7 @@ class _EmptyResult extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              "There is nothing here. Use the search bar to find some tasty recipes!",
+              context.loc.recipeListEmptyResult,
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -165,9 +168,8 @@ class _ErrorUI extends StatelessWidget {
       case RecipeExceptionsType.unauthorizedRequest:
         return _buildUi(
           context,
-          errorText:
-              "Unauthorized request, make sure that the app uses a valid API KEY",
-          buttonText: "Back to favorites",
+          errorText: context.loc.recipeListUnauthorizedRequest,
+          buttonText: context.loc.recipeBackToFavorites,
           onButtonPress: () {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
           },
@@ -175,9 +177,8 @@ class _ErrorUI extends StatelessWidget {
       case RecipeExceptionsType.emptyResult:
         return _buildUi(
           context,
-          errorText:
-              "Cannot produce any result for your request, please try another query",
-          buttonText: "Back to favorites",
+          errorText: context.loc.recipeListEmptyResultError,
+          buttonText: context.loc.recipeBackToFavorites,
           onButtonPress: () {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
           },
@@ -185,9 +186,8 @@ class _ErrorUI extends StatelessWidget {
       case RecipeExceptionsType.timeOut:
         return _buildUi(
           context,
-          errorText:
-              "Request timed out, please check your internet connection and try again",
-          buttonText: "Back to favorites",
+          errorText: context.loc.recipeListTimeOutError,
+          buttonText: context.loc.recipeBackToFavorites,
           onButtonPress: () {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
           },
@@ -196,8 +196,8 @@ class _ErrorUI extends StatelessWidget {
       case RecipeExceptionsType.unknown:
         return _buildUi(
           context,
-          errorText: "Unknown error, please try again later",
-          buttonText: "Back to favorites",
+          errorText: context.loc.recipeListUnknownError,
+          buttonText: context.loc.recipeBackToFavorites,
           onButtonPress: () {
             BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
           },
