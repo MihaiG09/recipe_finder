@@ -10,8 +10,9 @@ import 'package:recipe_finder/features/home/home_screen.dart';
 import 'data/data_source/favorites_data_source/favorites_data_source_in_memory.dart';
 import 'data/repository/recipe_repository_impl.dart';
 
+//TODO: write readme.md
 void main() {
-  Gemini.init(apiKey: "");
+  Gemini.init(apiKey: const String.fromEnvironment("geminiApiKey"));
 
   runApp(const MyApp());
 }
