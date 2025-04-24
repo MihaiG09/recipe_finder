@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_list_view.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_search_field.dart';
 
-// todo: create translation files
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
