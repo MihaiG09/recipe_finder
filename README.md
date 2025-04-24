@@ -7,7 +7,7 @@ AI-Powered Recipe Finder app
 In order to run the app you must have flutter set up. You can 
 find the set up steps [here](https://docs.flutter.dev/get-started/install)
 
-This app uses Gemini API for generating content so an API key is need
+This app uses Gemini API for generating content so an API key is needed
 in order to run the app. You can create an api key [here](https://aistudio.google.com/app/apikey).
 
 You can run the app using Android Studio (recommended) or your preferred IDE.
