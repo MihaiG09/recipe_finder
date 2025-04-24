@@ -45,6 +45,7 @@ modular as new Data Sources can be easily integrated
 - Save recipes as favorites
 - User search history
 - Persistent favorite recipes
+- App Icon
 - Loading Shimmer animation
 - Error handling
 - UI states (loading, error, success)

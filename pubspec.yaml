@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   intl: any
   lock_orientation_screen: ^0.0.4
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +33,14 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   build_runner: ^2.4.0
   mockito: ^5.4.6
+
+flutter_launcher_icons:
+  image_path: "assets/app_icon.jpeg"
+  android: true
+  ios: true
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
 
 flutter:
   uses-material-design: true

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_finder/common/utils/dimens.dart';
 import 'package:recipe_finder/common/widgets/favorite_button.dart';
 import 'package:recipe_finder/common/widgets/recipe_title.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
@@ -30,12 +31,12 @@ class RecipeListTile extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: EdgeInsets.symmetric(horizontal: Dimens.space200),
                 child: RecipeTitle(recipe: recipe),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 8, left: 8),
+              padding: EdgeInsets.symmetric(horizontal: Dimens.space200),
               child: FavoriteButton(recipe: recipe),
             ),
           ],

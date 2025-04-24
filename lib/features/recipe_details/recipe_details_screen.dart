@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recipe_finder/common/utils/dimens.dart';
 import 'package:recipe_finder/common/utils/loc.dart';
 import 'package:recipe_finder/common/widgets/favorite_button.dart';
 import 'package:recipe_finder/common/widgets/recipe_title.dart';
@@ -27,19 +28,23 @@ class RecipeDetailsScreen extends StatelessWidget {
                   physics: ClampingScrollPhysics(),
                   child: SafeArea(
                     top: false,
-                    minimum: EdgeInsets.only(bottom: 24),
+                    minimum: EdgeInsets.only(bottom: Dimens.space500),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Image.asset(recipe.imagePath),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimens.space400,
+                          ),
                           child: Column(
                             children: [
                               _buildTitle(context, recipe),
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: Dimens.space400,
+                                ),
                                 child: _buildIngredientsList(context, recipe),
                               ),
                               _buildInstructionsList(context, recipe),
@@ -74,7 +79,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           ),
           ...recipe.ingredients.map(
             (ingredient) => Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: EdgeInsets.only(left: Dimens.space200),
               child: Text(
                 "\u2022 $ingredient",
                 style: Theme.of(context).textTheme.bodySmall,
@@ -99,7 +104,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           ),
           ...recipe.instructions.asMap().entries.map(
             (entry) => Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: EdgeInsets.only(left: Dimens.space200),
               child: _buildInstructionEntry(
                 context,
                 index: entry.key,

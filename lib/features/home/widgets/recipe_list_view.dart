@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_finder/common/theme/app_colors.dart';
+import 'package:recipe_finder/common/utils/dimens.dart';
 import 'package:recipe_finder/common/utils/loc.dart';
 import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
@@ -26,18 +27,20 @@ class RecipeListView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
                 child: _buildListTitle(context, state),
               ),
               Flexible(
                 child: ListView.builder(
                   physics: ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(Dimens.space400),
                   itemCount: state.recipes.length,
                   itemBuilder:
                       (context, index) => Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                          vertical: Dimens.space200,
+                        ),
                         child: RecipeListTile(recipe: state.recipes[index]),
                       ),
                 ),
@@ -45,7 +48,7 @@ class RecipeListView extends StatelessWidget {
               if (state is RecipeSearchLoaded)
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: Dimens.space200),
                     child: _buildRetryButton(context),
                   ),
                 ),
@@ -86,7 +89,7 @@ class _EmptyResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -94,7 +97,7 @@ class _EmptyResult extends StatelessWidget {
         children: [
           Icon(Icons.search, color: AppColors.primary, size: 88),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: Dimens.space400),
             child: Text(
               context.loc.recipeListEmptyResult,
               style: Theme.of(context).textTheme.bodyLarge,
@@ -117,17 +120,17 @@ class _LoadingShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: Dimens.space200),
             child: _buildTitleShimmer(context),
           ),
           for (int i = 0; i < 4; i++)
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(vertical: Dimens.space200),
               child: _buildListTileShimmer(context),
             ),
         ],
@@ -212,7 +215,7 @@ class _ErrorUI extends StatelessWidget {
     required VoidCallback onButtonPress,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -220,7 +223,7 @@ class _ErrorUI extends StatelessWidget {
         children: [
           Icon(Icons.error_outline, color: AppColors.primary, size: 88),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: Dimens.space400),
             child: Text(
               errorText,
               style: Theme.of(context).textTheme.bodyLarge,
