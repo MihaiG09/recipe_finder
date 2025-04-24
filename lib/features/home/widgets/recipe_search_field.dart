@@ -22,6 +22,7 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
       controller: _controller,
       onSubmit: (value) {
         BlocProvider.of<RecipeListBloc>(context).add(SearchRecipes(value));
+        _controller.clear();
       },
       searchInputDecoration: SearchInputDecoration(
         enabledBorder: OutlineInputBorder(

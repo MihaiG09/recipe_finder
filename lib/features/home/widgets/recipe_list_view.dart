@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_finder/common/theme/app_colors.dart';
+import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_list_tile.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_tile_container.dart';
@@ -14,8 +15,7 @@ class RecipeListView extends StatelessWidget {
     return BlocBuilder<RecipeListBloc, RecipeListState>(
       builder: (context, state) {
         if (state is RecipeListError) {
-          // TODO: implement Error UI
-          return Text("This is an error");
+          return _ErrorUI(state.type);
         }
         if (state is RecipeListLoaded) {
           return Column(
@@ -102,4 +102,77 @@ class _LoadingShimmer extends StatelessWidget {
       ),
     ),
   );
+}
+
+class _ErrorUI extends StatelessWidget {
+  final RecipeExceptionsType recipeExceptionsType;
+  const _ErrorUI(this.recipeExceptionsType);
+  @override
+  Widget build(BuildContext context) {
+    switch (recipeExceptionsType) {
+      case RecipeExceptionsType.unauthorizedRequest:
+        return _buildUi(
+          context,
+          errorText:
+              "Unauthorized request, make sure that the app uses a valid API KEY",
+          buttonText: "Back to favorites",
+          onButtonPress: () {
+            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+          },
+        );
+      case RecipeExceptionsType.emptyResult:
+        return _buildUi(
+          context,
+          errorText:
+              "Cannot produce any result of your request, please try another query",
+          buttonText: "Back to favorites",
+          onButtonPress: () {
+            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+          },
+        );
+      case RecipeExceptionsType.unknown:
+        return _buildUi(
+          context,
+          errorText: "Unknown error, please try again later",
+          buttonText: "Back to favorites",
+          onButtonPress: () {
+            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+          },
+        );
+    }
+  }
+
+  Widget _buildUi(
+    BuildContext context, {
+    required String errorText,
+    required String buttonText,
+    required VoidCallback onButtonPress,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      width: double.infinity,
+      child: Column(
+        children: [
+          Icon(Icons.error_outline, color: AppColors.primary, size: 88),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Text(
+              errorText,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: onButtonPress,
+            child: Text(
+              buttonText,
+              style: Theme.of(
+                context,
+              ).textTheme.labelMedium?.copyWith(color: AppColors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

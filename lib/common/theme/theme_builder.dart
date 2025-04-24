@@ -13,6 +13,7 @@ class ThemeBuilder {
         primary: AppColors.primary,
         surface: AppColors.white,
       ),
+      elevatedButtonTheme: attributes.elevatedButtonStyle,
     );
   }
 }

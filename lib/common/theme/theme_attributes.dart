@@ -58,4 +58,17 @@ class ThemeAttributes {
       ),
     );
   }
+
+  ElevatedButtonThemeData get elevatedButtonStyle => ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(AppColors.primary),
+      textStyle: WidgetStatePropertyAll(
+        textTheme.labelMedium?.copyWith(color: AppColors.white),
+      ),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      ),
+      elevation: WidgetStatePropertyAll(0),
+    ),
+  );
 }

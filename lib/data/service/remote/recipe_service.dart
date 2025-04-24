@@ -11,23 +11,40 @@ class RecipeService {
   // TODO: use rest API instead
   Future<List<Recipe>> searchRecipes(String query) async {
     try {
+      Logger.d(
+        tag: runtimeType.toString(),
+        message: "searchRecipes query $query",
+      );
+
       Candidates? candidates = await Gemini.instance.prompt(
         parts: [Part.text(geminiPrompt(query))],
       );
 
-      String? output = candidates?.output;
+      List<Recipe> result = [];
 
-      if (output != null) {
-        var json = jsonDecode(stripToBraces(output));
-        return Recipe.listFromJson(json["recipes"]);
-      }
-
-      Logger.w(
-        // tag: runtimeType.toString(),
-        message: "searchRecipes prompt output is null",
+      Logger.d(
+        tag: runtimeType.toString(),
+        message: "searchRecipes response length ${candidates?.output?.length}",
       );
 
-      return [];
+      if (candidates?.output != null) {
+        var json = jsonDecode(stripToBraces(candidates!.output!));
+        result = Recipe.listFromJson(json["recipes"]);
+      }
+
+      if (result.isEmpty) {
+        Logger.e(
+          tag: runtimeType.toString(),
+          message: "searchRecipes result is empty",
+        );
+
+        throw RecipeExceptions(
+          message: "search result is empty",
+          type: RecipeExceptionsType.emptyResult,
+        );
+      }
+
+      return result;
     } on GeminiException catch (e) {
       if (e.statusCode == 403) {
         throw RecipeExceptions(
