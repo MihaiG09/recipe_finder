@@ -120,7 +120,7 @@ abstract class AppLocalizations {
   /// No description provided for @recipeListEmptyResult.
   ///
   /// In en, this message translates to:
-  /// **'There is nothing here. Use the search bar to find some tasty recipes!'**
+  /// **'Welcome to Recipe Finder App! To get started use the search bar above to find some tasty recipes!'**
   String get recipeListEmptyResult;
 
   /// No description provided for @recipeListUnauthorizedRequest.

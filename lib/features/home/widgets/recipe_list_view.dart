@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_finder/common/theme/app_colors.dart';
 import 'package:recipe_finder/common/utils/dimens.dart';
 import 'package:recipe_finder/common/utils/loc.dart';
-import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/features/home/bloc/recipe_list_bloc.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_list_tile.dart';
 import 'package:recipe_finder/features/home/widgets/recipe_tile_container.dart';
@@ -95,7 +94,11 @@ class _EmptyResult extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search, color: AppColors.primary, size: 88),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            child: Image.asset("assets/app_icon.jpeg", height: 150),
+          ),
+
           Padding(
             padding: EdgeInsets.symmetric(vertical: Dimens.space400),
             child: Text(
@@ -163,49 +166,18 @@ class _LoadingShimmer extends StatelessWidget {
 }
 
 class _ErrorUI extends StatelessWidget {
-  final RecipeExceptionsType recipeExceptionsType;
-  const _ErrorUI(this.recipeExceptionsType);
+  final RecipeListErrorType errorType;
+  const _ErrorUI(this.errorType);
   @override
   Widget build(BuildContext context) {
-    switch (recipeExceptionsType) {
-      case RecipeExceptionsType.unauthorizedRequest:
-        return _buildUi(
-          context,
-          errorText: context.loc.recipeListUnauthorizedRequest,
-          buttonText: context.loc.recipeBackToFavorites,
-          onButtonPress: () {
-            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
-          },
-        );
-      case RecipeExceptionsType.emptyResult:
-        return _buildUi(
-          context,
-          errorText: context.loc.recipeListEmptyResultError,
-          buttonText: context.loc.recipeBackToFavorites,
-          onButtonPress: () {
-            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
-          },
-        );
-      case RecipeExceptionsType.timeOut:
-        return _buildUi(
-          context,
-          errorText: context.loc.recipeListTimeOutError,
-          buttonText: context.loc.recipeBackToFavorites,
-          onButtonPress: () {
-            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
-          },
-        );
-      case RecipeExceptionsType.invalidRequest:
-      case RecipeExceptionsType.unknown:
-        return _buildUi(
-          context,
-          errorText: context.loc.recipeListUnknownError,
-          buttonText: context.loc.recipeBackToFavorites,
-          onButtonPress: () {
-            BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
-          },
-        );
-    }
+    return _buildUi(
+      context,
+      errorText: errorType.getTitle(context.loc),
+      buttonText: errorType.getButtonTitle(context.loc),
+      onButtonPress: () {
+        BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+      },
+    );
   }
 
   Widget _buildUi(

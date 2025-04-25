@@ -7,6 +7,7 @@ import 'package:recipe_finder/common/utils/logger.dart';
 import 'package:recipe_finder/data/exceptions/recipe_exceptions.dart';
 import 'package:recipe_finder/data/models/recipe.dart';
 import 'package:recipe_finder/data/repository/recipe_repository.dart';
+import 'package:recipe_finder/l10n/app_localizations.dart';
 
 part 'recipe_list_event.dart';
 part 'recipe_list_state.dart';
@@ -44,6 +45,10 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         excludedRecipes: _excludedRecipes,
       );
 
+      if (_lastQuery != event.query) {
+        _excludedRecipes.clear();
+      }
+
       _lastQuery = event.query;
 
       emit(RecipeSearchLoaded(recipes));
@@ -54,7 +59,9 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(e.type));
+      emit(
+        RecipeListError(RecipeListErrorType.fromRecipeExceptionType(e.type)),
+      );
     } catch (e) {
       Logger.d(
         tag: runtimeType.toString(),
@@ -62,7 +69,7 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(RecipeExceptionsType.unknown));
+      emit(RecipeListError(RecipeListErrorType.unknown));
     }
   }
 
@@ -87,7 +94,7 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(e.type));
+      RecipeListError(RecipeListErrorType.fromRecipeExceptionType(e.type));
     } catch (e) {
       Logger.d(
         tag: runtimeType.toString(),
@@ -95,7 +102,7 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(RecipeExceptionsType.unknown));
+      emit(RecipeListError(RecipeListErrorType.unknown));
     }
   }
 
@@ -129,7 +136,9 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(e.type));
+      emit(
+        RecipeListError(RecipeListErrorType.fromRecipeExceptionType(e.type)),
+      );
     } catch (e) {
       Logger.d(
         tag: runtimeType.toString(),
@@ -137,7 +146,7 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(RecipeExceptionsType.unknown));
+      emit(RecipeListError(RecipeListErrorType.unknown));
     }
   }
 
@@ -171,7 +180,9 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(e.type));
+      emit(
+        RecipeListError(RecipeListErrorType.fromRecipeExceptionType(e.type)),
+      );
     } catch (e) {
       Logger.d(
         tag: runtimeType.toString(),
@@ -179,7 +190,7 @@ class RecipeListBloc extends Bloc<RecipeEvent, RecipeListState> {
         error: e,
       );
 
-      emit(RecipeListError(RecipeExceptionsType.unknown));
+      emit(RecipeListError(RecipeListErrorType.unknown));
     }
   }
 

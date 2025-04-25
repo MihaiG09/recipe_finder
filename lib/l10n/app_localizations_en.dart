@@ -21,7 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recipeListRetryButtonTitle => 'I don\'t like these';
 
   @override
-  String get recipeListEmptyResult => 'There is nothing here. Use the search bar to find some tasty recipes!';
+  String get recipeListEmptyResult => 'Welcome to Recipe Finder App! To get started use the search bar above to find some tasty recipes!';
 
   @override
   String get recipeListUnauthorizedRequest => 'Unauthorized request, make sure that the app uses a valid API KEY';

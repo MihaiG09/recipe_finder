@@ -5,7 +5,7 @@
   "recipeListFavoritesTitle": "Favorites",
   "recipeListSearchTitle": "Suggested Recipes",
   "recipeListRetryButtonTitle": "I don't like these",
-  "recipeListEmptyResult": "There is nothing here. Use the search bar to find some tasty recipes!",
+  "recipeListEmptyResult": "Welcome to Recipe Finder App! To get started use the search bar above to find some tasty recipes!",
   "recipeListUnauthorizedRequest": "Unauthorized request, make sure that the app uses a valid API KEY",
   "recipeListEmptyResultError": "Cannot produce any result for your request, please try another query",
   "recipeListUnknownError": "Unknown error, please try again later",
