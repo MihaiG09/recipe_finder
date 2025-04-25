@@ -21,6 +21,12 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
   final List<String> _suggestions = [];
 
   @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_textControllerListener);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder:
@@ -111,10 +117,13 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
     ).textTheme.bodyMedium?.copyWith(height: 1, color: AppColors.tertiary),
     contentPadding: EdgeInsets.symmetric(horizontal: Dimens.space400),
     constraints: BoxConstraints(maxHeight: 40),
-    suffixIcon: Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
-      child: SvgPicture.asset("assets/search.svg"),
-    ),
+    suffixIcon:
+        _controller.text.isEmpty
+            ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
+              child: SvgPicture.asset("assets/search.svg"),
+            )
+            : _buildTextClearButton(),
   );
 
   MenuStyle get _menuStyle => MenuStyle(
@@ -126,6 +135,28 @@ class _RecipeSearchFieldState extends State<RecipeSearchField> {
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
   );
+
+  Widget _buildTextClearButton() {
+    return IconButton(
+      onPressed: () {
+        _controller.clear();
+        if (!_textFieldFocus.hasFocus) {
+          BlocProvider.of<RecipeListBloc>(context).add(FetchFavorites());
+        }
+      },
+      icon: Icon(Icons.clear, size: 14),
+    );
+  }
+
+  void _textControllerListener() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_textControllerListener);
+    super.dispose();
+  }
 }
 
 class _SuggestionTile extends StatelessWidget {
@@ -143,20 +174,28 @@ class _SuggestionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
-              child: Text(value, style: Theme.of(context).textTheme.bodyMedium),
+      child: SizedBox(
+        height: 49,
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimens.space400),
+                child: Text(
+                  value,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: onDelete,
-            padding: EdgeInsets.zero, // Remove default padding
-            icon: Icon(Icons.close, color: AppColors.tertiary),
-          ),
-        ],
+            IconButton(
+              onPressed: onDelete,
+              padding: EdgeInsets.zero, // Remove default padding
+              icon: Icon(Icons.close, color: AppColors.tertiary),
+            ),
+          ],
+        ),
       ),
     );
   }
